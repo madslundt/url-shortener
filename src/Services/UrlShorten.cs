@@ -105,7 +105,7 @@ namespace UrlShortener.Services
 
         private string SetUrl(string url)
         {
-            if (!url.Contains("http"))
+            if (!url.StartsWith("http"))
             {
                 url = "http://" + url;
             }
@@ -138,7 +138,7 @@ namespace UrlShortener.Services
 
             Random random = new Random(Guid.NewGuid().GetHashCode());
 
-            int length = _urlSettings.UrlLength;
+            int length = _urlSettings.ShortIdLength;
             while (length-- > 0)
             {
                 result.Append(_urlSettings.AllowedCharacters[random.Next(_urlSettings.AllowedCharacters.Length)]);
