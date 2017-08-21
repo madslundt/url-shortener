@@ -41,9 +41,25 @@ namespace src
             services.AddOptions();
             services.Configure<UrlSettings>(Configuration.GetSection("UrlSettings"));
 
-            services.AddDbContext<DataContext>(
-                options => options.UseNpgsql(Configuration["DataSettings:ConnectionString"])
-            );
+            string postgres = Configuration["DataSettings:PostgresConnectionString"];
+            string mssql = Configuration["DataSettings:MSSQLConnectionString"];
+
+            if (!string.IsNullOrWhiteSpace(postgres))
+            {
+                services.AddDbContext<DataContext>(
+                    options => options.UseNpgsql(postgres)
+                );
+            }
+            else if (!string.IsNullOrWhiteSpace(mssql))
+            {
+                services.AddDbContext<DataContext>(
+                    options => options.UseSqlServer(mssql)
+                );
+            }
+            else
+            {
+                throw new Exception("No connection string provided in appsettings.");
+            }
 
             services.AddConfiguredMvc();
             services.AddConfiguredCors();

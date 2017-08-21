@@ -3,7 +3,7 @@ Simple URL shortener service written in ASPNET Core 2.0. Using Postgresql
 
 ## Endpoints
 `POST /?url=<URL>` where URl is the url that needs to be redirected to.
-The reponds of the output is:
+The repond of the output is:
 ```
 {
     id: GUID,

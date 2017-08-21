@@ -11,15 +11,15 @@ using System;
 namespace datamodel.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20170821104459_remove_shortid")]
-    partial class remove_shortid
+    [Migration("20170821124118_initmssql")]
+    partial class initmssql
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
+                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("datamodel.Models.Url", b =>
                 {
@@ -39,10 +39,12 @@ namespace datamodel.Migrations
                         .IsUnique();
 
                     b.HasIndex("RedirectUrl")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[RedirectUrl] IS NOT NULL");
 
                     b.HasIndex("ShortId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ShortId] IS NOT NULL");
 
                     b.ToTable("Urls");
                 });

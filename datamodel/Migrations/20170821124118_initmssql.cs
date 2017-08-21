@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace datamodel.Migrations
 {
-    public partial class init : Migration
+    public partial class initmssql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,10 @@ namespace datamodel.Migrations
                 name: "UrlErrors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ErrorMessage = table.Column<string>(type: "text", nullable: true),
-                    ShortId = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusCode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,10 +26,10 @@ namespace datamodel.Migrations
                 name: "Urls",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    RedirectUrl = table.Column<string>(type: "text", nullable: true),
-                    ShortId = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RedirectUrl = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ShortId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,9 +40,9 @@ namespace datamodel.Migrations
                 name: "UrlRedirects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Redirected = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    UrlId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Redirected = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UrlId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,13 +70,15 @@ namespace datamodel.Migrations
                 name: "IX_Urls_RedirectUrl",
                 table: "Urls",
                 column: "RedirectUrl",
-                unique: true);
+                unique: true,
+                filter: "[RedirectUrl] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Urls_ShortId",
                 table: "Urls",
                 column: "ShortId",
-                unique: true);
+                unique: true,
+                filter: "[ShortId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
