@@ -15,8 +15,8 @@ The repond of the output is:
 
 ## Settings
 In appsettings there are following settings for the url shortener
- - `Domain`: The whitelisted domain to url shorten. (example default.com)
- - `AllowedCharacters`: The characters allowed for the shortId (case sensitive).
+ - `Domains`: Domains allowed to be shorten. Multiple domains are separated with comma (,) (example default.com, default2.(com|net))
+ - `ShortIdCharacters`: The characters allowed for the shortId (case sensitive).
  - `ShortIdLength`: The length of the shortId.
  - `RedirectUrl`: The default page to redirect to if the url is missing from the database (if empty it just throws 404 page).
 
@@ -27,3 +27,9 @@ The database have 3 tables.
 `Urls`: Containing the url, shortId, Id and date.
 `UrlRedirects`: Containing analytics on how often the urls have been used and when.
 `UrlErrors`: Containing errors in form of not found urls, short id generation errors, wrong domains.
+
+Both MSSQL and PostgreSQL are allowed. Just add the settings to the appsettings within `DataSettings`:
+
+MSSQL ```"MSSQLConnectionString": "Data Source=tcp:localhost,1433;Database=UrlShorten;User ID=admin;Password=password;MultipleActiveResultSets=True"```
+
+PostgreSQL ```"PostgresConnectionString": "User ID=postgres;Password=password;Host=localhost;Port=5432;Database=UrlShortener;Pooling=true;"```

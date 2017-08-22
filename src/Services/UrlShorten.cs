@@ -60,10 +60,26 @@ namespace UrlShortener.Services
 
         private bool IsUrlValid(string url)
         {
-            Regex regex = new Regex("https?://" + _urlSettings.Domain + ".*");
-            Match match = regex.Match(url);
+            string[] domains = _urlSettings.Domains.Split(',');
+            foreach (string domain in domains)
+            {
+                string domainUrl = domain.Trim();
+                if (!domainUrl.StartsWith("http"))
+                {
+                    domainUrl = "https?://" + domain;
+                }
 
-            return match.Success;
+                Regex regex = new Regex(domainUrl + ".*");
+                Match match = regex.Match(url);
+
+                if (match.Success)
+                {
+                    return true;
+                }
+            }
+
+
+            return false;
         }
 
         private async Task<Result> InsertUrl(string url)
@@ -141,7 +157,7 @@ namespace UrlShortener.Services
             int length = _urlSettings.ShortIdLength;
             while (length-- > 0)
             {
-                result.Append(_urlSettings.AllowedCharacters[random.Next(_urlSettings.AllowedCharacters.Length)]);
+                result.Append(_urlSettings.ShortIdCharacters[random.Next(_urlSettings.ShortIdCharacters.Length)]);
             }
 
             return result.ToString();
