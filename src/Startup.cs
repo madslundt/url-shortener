@@ -44,6 +44,9 @@ namespace src
             string postgres = Configuration["DataSettings:PostgresConnectionString"];
             string mssql = Configuration["DataSettings:MSSQLConnectionString"];
 
+            Console.WriteLine(postgres);
+            Console.WriteLine(mssql);
+
             if (!string.IsNullOrWhiteSpace(postgres))
             {
                 services.AddDbContext<DataContext>(
@@ -55,10 +58,6 @@ namespace src
                 services.AddDbContext<DataContext>(
                     options => options.UseSqlServer(mssql)
                 );
-            }
-            else
-            {
-                throw new Exception("No connection string provided in appsettings.");
             }
 
             services.AddConfiguredMvc();
