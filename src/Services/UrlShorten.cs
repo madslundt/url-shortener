@@ -40,6 +40,7 @@ namespace UrlShortener.Services
 
         public async Task<Result> ShortenUrl(string url)
         {
+            url = System.Net.WebUtility.UrlDecode(url);
             url = SetUrl(url);
 
             bool isValid = IsUrlValid(url);
