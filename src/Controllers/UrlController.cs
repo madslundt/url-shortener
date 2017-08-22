@@ -20,9 +20,9 @@ namespace UrlShortener.Controllers
         }
 
         [HttpPost, Route("/")]
-        public async Task<IActionResult> PostUrlAsync([FromQuery] string url)
+        public async Task<IActionResult> PostUrlAsync([FromBody] UrlShorten.Request request)
         {
-            UrlShorten.Result result = await _urlShorten.ShortenUrl(url).ConfigureAwait(false);
+            UrlShorten.Result result = await _urlShorten.ShortenUrl(request).ConfigureAwait(false);
 
             return Ok(result);
         }

@@ -15,6 +15,10 @@ namespace datamodel.Models
                 b.Property(p => p.Created)
                     .ValueGeneratedOnAdd();
 
+                b.Property(p => p.RedirectUrl)
+                    .HasColumnType("VARCHAR(MAX)")
+                    .IsRequired();
+
                 b.HasMany(r => r.UrlHistories)
                     .WithOne(r => r.Url)
                     .HasForeignKey(r => r.UrlId);
@@ -22,8 +26,6 @@ namespace datamodel.Models
                 b.HasIndex(idx => idx.Id)
                     .IsUnique();
                 b.HasIndex(idx => idx.ShortId)
-                    .IsUnique();
-                b.HasIndex(idx => idx.RedirectUrl)
                     .IsUnique();
 
                 b.HasKey(k => k.Id);

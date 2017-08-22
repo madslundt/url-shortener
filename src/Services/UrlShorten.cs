@@ -20,6 +20,11 @@ namespace UrlShortener.Services
         private readonly DataContext _db;
         private readonly UrlSettings _urlSettings;
 
+        public class Request
+        {
+            public string Url { get; set; }
+        }
+
         public class Result
         {
             public Guid Id { get; set; }
@@ -38,10 +43,9 @@ namespace UrlShortener.Services
             _urlSettings = urlSettings.Value;
         }
 
-        public async Task<Result> ShortenUrl(string url)
+        public async Task<Result> ShortenUrl(Request request)
         {
-            url = System.Net.WebUtility.UrlDecode(url);
-            url = SetUrl(url);
+            string url = SetUrl(request.Url);
 
             bool isValid = IsUrlValid(url);
 

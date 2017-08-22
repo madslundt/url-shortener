@@ -2,8 +2,14 @@
 Simple URL shortener service written in ASPNET Core 2.0. Using Postgresql
 
 ## Endpoints
-`POST /?url=<URL>` where URl is the url that needs to be redirected to.
-The repond of the output is:
+`POST /`: with body parameter:
+```
+{
+    "url": "URL"
+}
+```
+where URl is the url that needs to be redirected to.
+The reponse of the output have content type `application/json` and returns:
 ```
 {
     id: GUID,
@@ -11,7 +17,7 @@ The repond of the output is:
 }
 ```
 
-`GET /<id | shortId>` where it can be either id or shortId. This redirects to the page (if it exists) or redirects to a default page (RedirectUrl). If RedirectUrl is empty it will throw a 404.
+`GET /<id | shortId>`: where it can be either id or shortId. This redirects to the page (if it exists) or redirects to a default page (RedirectUrl). If RedirectUrl is empty it will throw a 404.
 
 ## Settings
 In appsettings there are following settings for the url shortener
