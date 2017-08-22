@@ -44,9 +44,6 @@ namespace src
             string postgres = Configuration["DataSettings:PostgresConnectionString"];
             string mssql = Configuration["DataSettings:MSSQLConnectionString"];
 
-            Console.WriteLine(postgres);
-            Console.WriteLine(mssql);
-
             if (!string.IsNullOrWhiteSpace(postgres))
             {
                 services.AddDbContext<DataContext>(
