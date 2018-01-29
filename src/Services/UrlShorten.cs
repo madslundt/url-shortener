@@ -39,6 +39,8 @@ namespace UrlShortener.Services
             {
                 throw new Exception($"Url settings have not been set");
             }
+            
+            _urlSettings = urlSettings;
         }
 
         public async Task<Result> ShortenUrl(Request request)
