@@ -18,7 +18,7 @@ namespace UrlShortener.Services
         private const int RETRIES = 10;
 
         private readonly DataContext _db;
-        private readonly UrlSettings _urlSettings;
+        private readonly IOptionsSnapshot<UrlSettings> _urlSettings;
 
         public class Request
         {
@@ -39,8 +39,6 @@ namespace UrlShortener.Services
             {
                 throw new Exception($"Url settings have not been set");
             }
-
-            _urlSettings = urlSettings.Value;
         }
 
         public async Task<Result> ShortenUrl(Request request)
@@ -65,7 +63,7 @@ namespace UrlShortener.Services
 
         private bool IsUrlValid(string url)
         {
-            string[] domains = _urlSettings.Domains.Split(',');
+            string[] domains = _urlSettings.Value.Domains.Split(',');
             foreach (string domain in domains)
             {
                 string domainUrl = domain.Trim();
@@ -159,10 +157,10 @@ namespace UrlShortener.Services
 
             Random random = new Random(Guid.NewGuid().GetHashCode());
 
-            int length = _urlSettings.ShortIdLength;
+            int length = _urlSettings.Value.ShortIdLength;
             while (length-- > 0)
             {
-                result.Append(_urlSettings.ShortIdCharacters[random.Next(_urlSettings.ShortIdCharacters.Length)]);
+                result.Append(_urlSettings.Value.ShortIdCharacters[random.Next(_urlSettings.Value.ShortIdCharacters.Length)]);
             }
 
             return result.ToString();
